@@ -18,7 +18,7 @@ public class DroneController {
     private IDroneService iDroneService;
 
     @PostMapping(value = "/create")
-    public ResponseEntity<String> createDrone(@Valid @RequestBody Drone drone){
+    public ResponseEntity<String> createDrone(@RequestBody Drone drone){
         return new ResponseEntity<>(iDroneService.createDrone(drone).toString(), HttpStatus.OK);
     }
 
