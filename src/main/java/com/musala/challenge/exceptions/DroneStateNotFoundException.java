@@ -1,2 +1,4 @@
-package com.musala.challenge.exceptions;public class DroneStateNotFoundException {
+package com.musala.challenge.exceptions;
+
+public class DroneStateNotFoundException extends RuntimeException{
 }

@@ -1,2 +1,4 @@
-package com.musala.challenge.exceptions;public class BatteryCapacityException {
+package com.musala.challenge.exceptions;
+
+public class BatteryCapacityException extends RuntimeException{
 }

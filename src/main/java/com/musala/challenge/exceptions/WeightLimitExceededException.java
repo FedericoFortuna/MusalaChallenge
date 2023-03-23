@@ -1,2 +1,4 @@
-package com.musala.challenge.exceptions;public class WeightLimitExceededException3 {
+package com.musala.challenge.exceptions;
+
+public class WeightLimitExceededException extends RuntimeException {
 }
