@@ -1,11 +1,14 @@
 package com.musala.challenge.entities;
 
+import com.musala.challenge.enums.DroneModel;
+import com.musala.challenge.enums.DroneState;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -13,13 +16,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Table(name = "drone")
+@Getter
 public class Drone {
 
     @Id
     private String serialNumber;
 
     @Column(name = "model", nullable = false)
-    private String model;
+    private DroneModel model;
 
     @Column(name = "weight_limit", nullable = false)
     private String weightLimit;
@@ -28,7 +32,7 @@ public class Drone {
     private String batteryCapacity;
 
     @Column(name = "state", nullable = false)
-    private String state;
+    private DroneState state;
 
 
 }
