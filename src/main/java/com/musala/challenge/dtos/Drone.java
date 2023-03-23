@@ -1,9 +1,18 @@
 package com.musala.challenge.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.musala.challenge.enums.DroneModel;
 import com.musala.challenge.enums.DroneState;
-import com.musala.challenge.exceptions.NullFieldException;
+import com.musala.challenge.exceptions.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Builder
@@ -14,16 +23,25 @@ import java.util.Objects;
 @ToString
 public class Drone {
 
-
+    @Size(min = 1, message = "The serial number must have at least 1 character")
+    @Size(max = 100, message = "The serial number must have as maximum 100 characters")
     private String number;
 
     private String model;
 
-    private String weightLimit;
+    private Double weightLimit;
 
-    private String batteryCapacity;
+    private Integer batteryCapacity;
 
     private String droneState;
+
+    @JsonIgnore
+    private List<Medication> medications = new ArrayList<>();
+
+    public static final Double WEIGHT_LIMIT = 500.0;
+
+    private static final Integer MIN_BATTERY_CAPACITY = 0;
+    private static final Integer MAX_BATTERY_CAPACITY = 100;
 
     @Override
     public boolean equals(Object o) {
@@ -43,6 +61,41 @@ public class Drone {
                 this.getNumber() == null || this.getWeightLimit() == null){
             throw new NullFieldException();
         }
+
+        if(!isValidDroneState(this.getDroneState())){
+            throw new DroneStateNotFoundException();
+        }
+
+        if(!isValidDroneModel(this.getModel())){
+            throw new DroneModelNotFoundException();
+        }
+
+        if(this.getWeightLimit() > WEIGHT_LIMIT){
+            throw new WeightLimitExceededException();
+        }
+
+        if(this.getBatteryCapacity() < MIN_BATTERY_CAPACITY || this.getBatteryCapacity() > MAX_BATTERY_CAPACITY ){
+            throw new BatteryCapacityException();
+        }
+    }
+
+
+    private boolean isValidDroneState(String state) {
+        for (DroneState droneState : DroneState.values()) {
+            if (droneState.name().equalsIgnoreCase(state)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isValidDroneModel(String model) {
+        for (DroneModel droneModel : DroneModel.values()) {
+            if (droneModel.name().equalsIgnoreCase(model)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
