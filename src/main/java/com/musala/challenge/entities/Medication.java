@@ -15,9 +15,6 @@ public class Medication {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
     @Column(name = "weight", nullable = false)
     private String weight;
 
@@ -26,4 +23,8 @@ public class Medication {
 
     @Column(name = "image", nullable = false)
     private byte[] image;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "drone_serial_number", nullable = false)
+    private Drone drone;
 }
