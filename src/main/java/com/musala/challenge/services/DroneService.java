@@ -42,7 +42,7 @@ public class DroneService implements IDroneService {
         // TODO hacer validation para medication tambien
 
 
-        if (!droneEntity.isPresent()) {
+        if (droneEntity.isEmpty()) {
             throw new SerialNumberNotFoundException();
         }
         Drone drone = droneMapper.map(droneEntity.get());
