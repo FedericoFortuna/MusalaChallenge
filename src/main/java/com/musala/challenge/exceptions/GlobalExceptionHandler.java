@@ -28,6 +28,28 @@ public class GlobalExceptionHandler {
     @Value(value = "The serial number entered does not exist")
     private String serialNumberNotFound;
 
+    @Value(value = "The weight of the medicines exceeds the limit weight of the drone.")
+    private String medicinesWeightExceeded;
+
+    @Value(value = "Only letters, numbers, '-', and '_' are allowed in Id Medication.")
+    private String idRegexMedication;
+
+    @Value(value = "Only upper case letters, underscore, and numbers are allowed in Code Medication.")
+    private String codeRegexMedication;
+
+    @Value(value = "The drone does not allow to be loaded because of his state.")
+    private String stateNotAllowd;
+
+
+    @ExceptionHandler(value = RegexIdMedicationException.class)
+    public ResponseEntity regexIdMedicationException(RegexIdMedicationException e){
+        return new ResponseEntity(idRegexMedication, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = RegexCodeMedicationException.class)
+    public ResponseEntity regexCodeMedicationException(RegexCodeMedicationException e){
+        return new ResponseEntity(codeRegexMedication, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(value = NullFieldException.class)
     public ResponseEntity nullFieldException(NullFieldException e){
@@ -57,6 +79,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = SerialNumberNotFoundException.class)
     public ResponseEntity serialNumberNotFoundException(SerialNumberNotFoundException e){
         return new ResponseEntity(serialNumberNotFound, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = TotalWeightExceededException.class)
+    public ResponseEntity totalWeightExceededException(TotalWeightExceededException e){
+        return new ResponseEntity(medicinesWeightExceeded, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = StateNotAllowedToLoadException.class)
+    public ResponseEntity stateNotAllowedToLoadException(StateNotAllowedToLoadException e){
+        return new ResponseEntity(stateNotAllowd, HttpStatus.BAD_REQUEST);
     }
 
 }
