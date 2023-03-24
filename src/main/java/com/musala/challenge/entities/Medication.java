@@ -3,25 +3,27 @@ package com.musala.challenge.entities;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
 @Table(name = "medication")
 public class Medication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @Column(name = "weight", nullable = false)
-    private String weight;
+    private Double weight;
 
     @Column(name = "code", nullable = false)
     private String code;
 
-    @Column(name = "image", nullable = false)
+    @Column(name = "image")
     private byte[] image;
 
     @ManyToOne(fetch = FetchType.LAZY)
