@@ -1,11 +1,19 @@
 package com.musala.challenge.dtos;
 
 
-import jakarta.validation.constraints.Pattern;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.musala.challenge.enums.DroneModel;
+import com.musala.challenge.enums.DroneState;
+import com.musala.challenge.exceptions.NullFieldException;
+import com.musala.challenge.exceptions.RegexCodeMedicationException;
+import com.musala.challenge.exceptions.RegexIdMedicationException;
+import com.musala.challenge.utils.RegexMedications;
 import lombok.*;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Getter
 @Setter
@@ -14,12 +22,12 @@ import java.util.Objects;
 @AllArgsConstructor
 @ToString
 public class Medication {
-    @Pattern(regexp = "^[a-zA-Z0-9_-]+$", message = "Only letters, numbers, '-', and '_' are allowed")
-    private Long id;
-    @Pattern(regexp = "^[A-Z0-9_]+$", message = "Only upper case letters, underscore, and numbers are allowed")
+
+    private String id;
+
     private String code;
 
-    private String weight;
+    private Double weight;
 
     private byte[] image;
 
@@ -38,5 +46,30 @@ public class Medication {
         int result = Objects.hash(id, weight, code);
         result = 31 * result + Arrays.hashCode(image);
         return result;
+    }
+
+    public void validate() {
+        if (this.getId() == null || this.getCode() == null || this.getWeight() == null) {
+            throw new NullFieldException();
+        }
+
+        Pattern regexId = Pattern.compile(RegexMedications.REGEX_ID);
+        Matcher matcherId = regexId.matcher(this.getId());
+        if(!matcherId.matches()){
+            throw new RegexIdMedicationException();
+        }
+
+        Pattern regexCode = Pattern.compile(RegexMedications.REGEX_CODE);
+        Matcher matcherCode = regexCode.matcher(this.getCode());
+        if(!matcherCode.matches()){
+            throw new RegexCodeMedicationException();
+        }
+
+    }
+
+    public void droneLink(Drone drone) {
+        this.drone = com.musala.challenge.dtos.Drone.builder()
+                .number(drone.getNumber())
+                .build();
     }
 }
