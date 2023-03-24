@@ -35,7 +35,6 @@ public class Drone {
 
     private String droneState;
 
-    @JsonIgnore
     private List<Medication> medications = new ArrayList<>();
 
     public static final Double WEIGHT_LIMIT = 500.0;
@@ -56,27 +55,42 @@ public class Drone {
         return Objects.hash(number, model, weightLimit, batteryCapacity, droneState);
     }
 
-    public void validate(){
-        if(this.getDroneState() == null || this.getModel() == null || this.getBatteryCapacity() == null ||
-                this.getNumber() == null || this.getWeightLimit() == null){
+    public void validate() {
+        if (this.getDroneState() == null || this.getModel() == null || this.getBatteryCapacity() == null ||
+                this.getNumber() == null || this.getWeightLimit() == null) {
             throw new NullFieldException();
         }
 
-        if(!isValidDroneState(this.getDroneState())){
+        if (!isValidDroneState(this.getDroneState())) {
             throw new DroneStateNotFoundException();
         }
 
-        if(!isValidDroneModel(this.getModel())){
+        if (!isValidDroneModel(this.getModel())) {
             throw new DroneModelNotFoundException();
         }
 
-        if(this.getWeightLimit() > WEIGHT_LIMIT){
+        if (this.getWeightLimit() > WEIGHT_LIMIT) {
             throw new WeightLimitExceededException();
         }
 
-        if(this.getBatteryCapacity() < MIN_BATTERY_CAPACITY || this.getBatteryCapacity() > MAX_BATTERY_CAPACITY ){
+        if (this.getBatteryCapacity() < MIN_BATTERY_CAPACITY || this.getBatteryCapacity() > MAX_BATTERY_CAPACITY) {
             throw new BatteryCapacityException();
         }
+    }
+
+    public Drone loadDrone(List<Medication> medications) {
+        Double weightMedicationsOnDrone = getWeightMedications();
+
+        for (Medication med : medications) {
+            if (weightMedicationsOnDrone + med.getWeight() > WEIGHT_LIMIT) {
+                throw new TotalWeightExceededException();
+            }
+            this.medications.add(med);
+            weightMedicationsOnDrone += med.getWeight();
+        }
+
+
+        return this;
     }
 
 
@@ -96,6 +110,23 @@ public class Drone {
             }
         }
         return false;
+    }
+
+    private Double getWeightMedications() {
+        Double weightMedications;
+        if (this.medications == null) {
+            weightMedications = 0.0;
+        } else {
+            weightMedications = this.getMedications().stream()
+                    .map(Medication::getWeight)
+                    .reduce(0.0, Double::sum);
+        }
+        return weightMedications;
+    }
+
+
+    public void changeStatusToLoaded(){
+        this.droneState = DroneState.LOADED.toString();
     }
 
 
