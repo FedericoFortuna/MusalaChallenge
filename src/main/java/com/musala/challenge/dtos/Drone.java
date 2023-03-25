@@ -88,7 +88,7 @@ public class Drone {
             this.medications.add(med);
             weightMedicationsOnDrone += med.getWeight();
         }
-
+        this.changeStatusToLoading();
 
         return this;
     }
@@ -127,6 +127,9 @@ public class Drone {
 
     public void changeStatusToLoaded(){
         this.droneState = DroneState.LOADED.toString();
+    }
+    public void changeStatusToLoading(){
+        this.droneState = DroneState.LOADING.toString();
     }
 
 
