@@ -40,6 +40,14 @@ public class GlobalExceptionHandler {
     @Value(value = "The drone does not allow to be loaded because of his state.")
     private String stateNotAllowd;
 
+    @Value(value = "The state drone is not loaded.")
+    private String isNotLoadedDrone;
+
+
+    @ExceptionHandler(value = DroneIsNotLoadedException.class)
+    public ResponseEntity droneIsNotLoadedException(DroneIsNotLoadedException e){
+        return new ResponseEntity(isNotLoadedDrone, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(value = RegexIdMedicationException.class)
     public ResponseEntity regexIdMedicationException(RegexIdMedicationException e){
