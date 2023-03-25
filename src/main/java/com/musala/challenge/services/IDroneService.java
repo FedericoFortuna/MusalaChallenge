@@ -10,4 +10,6 @@ import java.util.List;
 public interface IDroneService {
     Drone createDrone(Drone drone);
     Drone loadDrone(String serialNumber, List<Medication> medications);
+
+    List<Drone> getDronesForLoading();
 }
