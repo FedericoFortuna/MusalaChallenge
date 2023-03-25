@@ -2,8 +2,7 @@ package com.musala.challenge.dtos;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.musala.challenge.enums.DroneModel;
-import com.musala.challenge.enums.DroneState;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.musala.challenge.exceptions.NullFieldException;
 import com.musala.challenge.exceptions.RegexCodeMedicationException;
 import com.musala.challenge.exceptions.RegexIdMedicationException;
@@ -30,7 +29,7 @@ public class Medication {
     private Double weight;
 
     private byte[] image;
-
+    @JsonIgnore
     private Drone drone;
 
     @Override
