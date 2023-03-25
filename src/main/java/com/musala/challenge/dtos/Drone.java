@@ -1,15 +1,11 @@
 package com.musala.challenge.dtos;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.musala.challenge.enums.DroneModel;
 import com.musala.challenge.enums.DroneState;
 import com.musala.challenge.exceptions.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +43,7 @@ public class Drone {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Drone drone = (Drone) o;
-        return Objects.equals(number, drone.number) && Objects.equals(model, drone.model) && Objects.equals(weightLimit, drone.weightLimit) && Objects.equals(batteryCapacity, drone.batteryCapacity) && droneState == drone.droneState;
+        return Objects.equals(number, drone.number) && Objects.equals(model, drone.model) && Objects.equals(weightLimit, drone.weightLimit) && Objects.equals(batteryCapacity, drone.batteryCapacity) && Objects.equals(droneState, drone.droneState);
     }
 
     @Override
@@ -113,7 +109,7 @@ public class Drone {
     }
 
     private Double getWeightMedications() {
-        Double weightMedications;
+        double weightMedications;
         if (this.medications == null) {
             weightMedications = 0.0;
         } else {
