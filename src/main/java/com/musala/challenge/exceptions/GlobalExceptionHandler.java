@@ -43,6 +43,13 @@ public class GlobalExceptionHandler {
     @Value(value = "The state drone is not loaded.")
     private String isNotLoadedDrone;
 
+    @Value(value = "The drone's battery is below 25%")
+    private String lowBatteryLevel;
+
+    @ExceptionHandler(value = CanNotLoadDroneException.class)
+    public ResponseEntity canNotLoadDroneException(CanNotLoadDroneException e){
+        return new ResponseEntity(lowBatteryLevel, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(value = DroneIsNotLoadedException.class)
     public ResponseEntity droneIsNotLoadedException(DroneIsNotLoadedException e){
