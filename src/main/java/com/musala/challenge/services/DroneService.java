@@ -63,10 +63,8 @@ public class DroneService implements IDroneService {
         }
 
         drone.loadDrone(medications);
-        drone.changeStatusToLoaded();
 
         droneRepository.save(droneMapper.toEntity(drone));
-
 
         return drone;
     }
@@ -76,7 +74,7 @@ public class DroneService implements IDroneService {
         Optional<List<com.musala.challenge.entities.Drone>> optDronesEntity = droneRepository.findByState(DroneState.IDLE);
         List<Drone> drones = new ArrayList<>();
 
-        if(optDronesEntity.isPresent()){
+        if (optDronesEntity.isPresent()) {
             List<com.musala.challenge.entities.Drone> droneEntityList = optDronesEntity.get();
             droneEntityList.forEach(drone -> drones.add(droneMapper.toDto(drone)));
         }
@@ -87,12 +85,23 @@ public class DroneService implements IDroneService {
 
     @Override
     public Integer getDroneBattery(String serialNumber) {
-        Optional< com.musala.challenge.entities.Drone> droneEntity = droneRepository.findById(serialNumber);
+        Optional<com.musala.challenge.entities.Drone> droneEntity = droneRepository.findById(serialNumber);
 
         if (droneEntity.isEmpty()) {
             throw new SerialNumberNotFoundException();
         }
 
         return droneMapper.toDto(droneEntity.get()).getBatteryCapacity();
+    }
+
+    @Override
+    public void changeStatusToLoading(String serialNumber) {
+        Optional<com.musala.challenge.entities.Drone> droneEntity = droneRepository.findById(serialNumber);
+
+        if (droneEntity.isEmpty()) {
+            throw new SerialNumberNotFoundException();
+        }
+        Drone drone = droneMapper.toDto(droneEntity.get());
+        drone.changeStatusToLoading();
     }
 }

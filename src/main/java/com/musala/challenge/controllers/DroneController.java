@@ -48,4 +48,10 @@ public class DroneController {
         return new ResponseEntity<>(iDroneService.getDroneBattery(serialNumber).toString(), HttpStatus.OK);
     }
 
+    @PatchMapping(value = "/{serialNumber}/loading")
+    public ResponseEntity changeStatusToLoading(@PathVariable String serialNumber){
+        iDroneService.changeStatusToLoading(serialNumber);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

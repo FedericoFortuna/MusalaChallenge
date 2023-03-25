@@ -38,6 +38,8 @@ public class Drone {
     private static final Integer MIN_BATTERY_CAPACITY = 0;
     private static final Integer MAX_BATTERY_CAPACITY = 100;
 
+    private static final Integer LIMIT_TO_LOAD_DRONE = 25;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,6 +67,10 @@ public class Drone {
             throw new DroneModelNotFoundException();
         }
 
+        if (this.batteryCapacity < LIMIT_TO_LOAD_DRONE && Objects.equals(this.droneState, DroneState.LOADING.toString())) {
+            throw new CanNotLoadDroneException();
+        }
+
         if (this.getWeightLimit() > WEIGHT_LIMIT) {
             throw new WeightLimitExceededException();
         }
@@ -84,7 +90,6 @@ public class Drone {
             this.medications.add(med);
             weightMedicationsOnDrone += med.getWeight();
         }
-        this.changeStatusToLoading();
 
         return this;
     }
@@ -120,11 +125,10 @@ public class Drone {
         return weightMedications;
     }
 
-
-    public void changeStatusToLoaded(){
-        this.droneState = DroneState.LOADED.toString();
-    }
-    public void changeStatusToLoading(){
+    public void changeStatusToLoading() {
+        if (this.batteryCapacity < LIMIT_TO_LOAD_DRONE) {
+            throw new CanNotLoadDroneException();
+        }
         this.droneState = DroneState.LOADING.toString();
     }
 
