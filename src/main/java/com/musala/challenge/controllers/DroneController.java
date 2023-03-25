@@ -43,4 +43,9 @@ public class DroneController {
         return new ResponseEntity<>(iDroneService.getDronesForLoading().toString(), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/{serialNumber}/battery")
+    public ResponseEntity<String> getDroneBattery(@PathVariable String serialNumber){
+        return new ResponseEntity<>(iDroneService.getDroneBattery(serialNumber).toString(), HttpStatus.OK);
+    }
+
 }

@@ -84,4 +84,15 @@ public class DroneService implements IDroneService {
 
         return drones;
     }
+
+    @Override
+    public Integer getDroneBattery(String serialNumber) {
+        Optional< com.musala.challenge.entities.Drone> droneEntity = droneRepository.findById(serialNumber);
+
+        if (droneEntity.isEmpty()) {
+            throw new SerialNumberNotFoundException();
+        }
+
+        return droneMapper.toDto(droneEntity.get()).getBatteryCapacity();
+    }
 }
