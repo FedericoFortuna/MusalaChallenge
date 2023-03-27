@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -33,10 +32,6 @@ public class MedicationService implements IMedicationService{
 
 
         com.musala.challenge.dtos.Drone drone = droneMapper.toDto(droneEntity.get());
-
-        if(!Objects.equals(drone.getDroneState(), DroneState.LOADED.toString())){
-            throw new DroneIsNotLoadedException();
-        }
 
         return drone.getMedications();
     }
