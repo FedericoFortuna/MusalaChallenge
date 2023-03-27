@@ -34,7 +34,7 @@ public class Drone {
     @Column(name = "state", nullable = false)
     private DroneState state;
 
-    @OneToMany(mappedBy = "drone", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "drone", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Medication> medications = new ArrayList<>();
 
 

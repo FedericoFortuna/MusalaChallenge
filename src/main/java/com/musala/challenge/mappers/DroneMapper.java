@@ -51,11 +51,15 @@ public class DroneMapper {
     }
 
     private Medication medicationEntityToDto(com.musala.challenge.entities.Medication med){
+        Drone droneEntity = med.getDrone();
         return Medication.builder()
                 .id(med.getId())
                 .code(med.getCode())
                 .weight(med.getWeight())
                 .image(med.getImage())
+                .drone(com.musala.challenge.dtos.Drone.builder()
+                        .number(droneEntity.getSerialNumber())
+                        .build())
                 .build();
     }
 
