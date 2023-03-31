@@ -30,7 +30,7 @@ public class AuditBattery {
     @Autowired
     private DroneMapper droneMapper;
 
-    @Scheduled(cron = "0 */1 * ? * *")
+    @Scheduled(cron = "0 */30 * ? * *")
     public void checkDronesBatteryLevelTask() {
         log.info(LOG_AUDIT_BATTERY_LEVEL, LocalDateTime.now(), LoggingTag.AUDIT_BATTERY, AuditBattery.class.getSimpleName());
         this.getDrones().forEach(drone -> logger.info(LoggingTag.AUDIT_BATTERY + " : Battery level for drone " +  drone.getNumber() + " is " + drone.getBatteryCapacity() + "%"));
