@@ -12,6 +12,7 @@
 ## Instructions to Run API
 - Have/Install Java 8 onwards.
 - You have to open a command line on jar directory.
+- Execute `mvn clean package`
 - You have to write this command to run the API
   - `java -jar challenge-0.0.1-SNAPSHOT.jar`
 
